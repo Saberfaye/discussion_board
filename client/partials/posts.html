@@ -1,0 +1,57 @@
+<div class="well">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2><a href="/users/{{topic._user._id}}" style="color: white;">{{ topic._user.name }}</a> posted a topic:</h2>
+			<h2>{{ topic.title }}</h2>
+		</div>
+		<div class="panel-body">
+			<h3 style="margin-bottom: 50px;">Description: {{ topic.description }}</h3>
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="post">Post your answer here...</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="5" name="new_post" ng-model="new_post.content"></textarea>
+					</div>
+					<span class="col-sm-2 error" ng-if="errors.post.content">*{{ errors.post.content.message }}</span>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-10">
+						<button type="submit" class="btn btn-info pull-right" ng-click="addPost()">Post</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
+		<div class="panel-footer">
+			<div class="panel panel-info col-sm-offset-2" ng-repeat="post in posts">
+				<div class="panel-heading">
+					<p><a href="/users/{{post._user._id}}">{{ post._user.name }}</a>: {{ post.content }}</p>
+					<div style="margin-left: 80%;">
+						<button type="button" class="btn btn-success" ng-click="upVote(post._id)"><span class="badge">{{ post.up_vote }}</span> <span class="glyphicon glyphicon-thumbs-up"></span></button>
+						<button type="button" class="btn btn-danger" ng-click="downVote(post._id)"><span class="badge">{{ post.down_vote }}</span> <span class="glyphicon glyphicon-thumbs-down"></span></button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="list-group col-sm-offset-2">
+						<li class="list-group-item" ng-repeat="comment in post.comments"><a href="/users/{{comment._user._id}}">{{ comment._user.name }}</a>: {{ comment.content }}</li>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-8">
+								<textarea class="form-control" rows="3" name="comment" ng-model="new_comment[post._id].content"></textarea>
+							</div>
+							<span class="col-sm-2 error" ng-if="errors.comment[post._id].content">*{{ errors.comment[post._id].content.message }}</span>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10">
+								<button type="submit" class="btn btn-info pull-right" ng-click="addComment(post._id)">Comment</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

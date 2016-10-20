@@ -1,0 +1,55 @@
+<div class="well">
+	<h3>Hello, {{user.name}}</h3>
+	<div class="col-sm-3 pull-right" style="margin-bottom: 20px;">
+		<input type="text" class="form-control" placeholder="Search for title" ng-model="search.title">
+	</div>
+	<table class="table table-hover table-bordered table-striped">
+		<thead>
+			<tr>
+				<th ng-click="sortBy('category')">Category</th>
+				<th ng-click="sortBy('title')">Topic</th>
+				<th ng-click="sortBy('user_name')">User Name</th>
+				<th ng-click="sortBy('posts.length')">Posts</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="topic in topics | filter:search | orderBy:propertyName:reverse">
+				<td>{{ topic.category }}</td>
+				<td><a href="/topics/{{topic._id}}" class="btn btn-info">{{ topic.title }}</a></td>
+				<td><a href="/users/{{topic._user._id}}" class="btn btn-info">{{ topic._user.name }}</a></td>
+				<td>{{ topic.posts.length }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Add a new Topic</h3>
+	<form class="form-horizontal" ng-submit="addTopic()">
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="title">Topic:</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" name="title" placeholder="Enter Title" ng-model="new_topic.title">
+			</div>
+			<span class="col-sm-4 error" ng-if="errors.title">*{{ errors.title.message }}</span>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="last_name">Description:</label>
+			<div class="col-sm-6">
+				<textarea class="form-control" rows="5" name="description" placeholder="Enter Description" ng-model="new_topic.description"></textarea>
+			</div>
+			<span class="col-sm-4 error" ng-if="errors.description">*{{ errors.description.message }}</span>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="category">Category:</label>
+			<div class="col-sm-2">
+				<select class="form-control" ng-options="cate for cate in categories" ng-model="new_topic.category">
+				</select>
+			</div>
+			<span class="col-sm-offset-4 col-sm-4 error" ng-if="errors.category">*{{ errors.category.message }}</span>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-6">
+				<button type="submit" class="btn btn-info pull-right">Submit</button>
+			</div>
+		</div>
+	</form>
+</div>
